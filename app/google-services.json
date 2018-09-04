@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "145088797718",
+    "firebase_url": "https://jnt-firebase.firebaseio.com",
+    "project_id": "jnt-firebase",
+    "storage_bucket": "jnt-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145088797718:android:e74c5e24ea696ad4",
+        "android_client_info": {
+          "package_name": "com.justinlee.jntfirbase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145088797718-l3gljfhtojirvb3ci7f1rk1vfd23u4cr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.justinlee.jntfirbase",
+            "certificate_hash": "04d330632c06d877f08951a4fba3ca140f432c4b"
+          }
+        },
+        {
+          "client_id": "145088797718-bh6td79p8o4i7l4mm7vi2t1vc91apdp0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBACP_tTbcJ-72cctif30-2HLvLh8sxm7c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145088797718-bh6td79p8o4i7l4mm7vi2t1vc91apdp0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145088797718-so8sr7fj5v794nlm8moj289s6m26ticu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.niafan.JNTFirebase"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
