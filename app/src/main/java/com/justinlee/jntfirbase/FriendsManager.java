@@ -75,8 +75,8 @@ public class FriendsManager {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue().toString().equals(FirebaseConstants.FIREBASE_REQUEST_RECEIVED)) {
-                    setFriendAcceptedStateTo(loggedInUser.getKey(), dataSnapshot.getKey());
-                    setFriendAcceptedStateTo(dataSnapshot.getKey(), loggedInUser.getKey());
+                    setFriendAcceptanceState(loggedInUser.getKey(), dataSnapshot.getKey(), true);
+                    setFriendAcceptanceState(dataSnapshot.getKey(), loggedInUser.getKey(), true);
                 }
             }
 
@@ -102,8 +102,49 @@ public class FriendsManager {
         });
     }
 
-    private static void setFriendAcceptedStateTo(String targetKey, String keyOfFriendUnderTarget) {
-        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_USERS).child(targetKey).child(FIREBASE_CHILD_FRIENDS).child(keyOfFriendUnderTarget);
-        userReference.setValue("true");
+    public static void rejectAllFriendRequests(final User loggedInUser) {
+        Log.d(TAG, "onChildAdded: in reject1");
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_USERS).child(loggedInUser.getKey()).child(FirebaseConstants.FIREBASE_CHILD_FRIENDS);
+        userReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d(TAG, "onChildAdded: in reject2");
+                if (dataSnapshot.getValue().toString().equals(FirebaseConstants.FIREBASE_REQUEST_RECEIVED)) {
+                    setFriendAcceptanceState(loggedInUser.getKey(), dataSnapshot.getKey(), false);
+                    setFriendAcceptanceState(dataSnapshot.getKey(), loggedInUser.getKey(), false);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private static void setFriendAcceptanceState(String targetKey, String keyOfFriendUnderTarget, boolean isAccepted) {
+        if (isAccepted) {
+            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_USERS).child(targetKey).child(FIREBASE_CHILD_FRIENDS).child(keyOfFriendUnderTarget);
+            userReference.setValue("true");
+        } else {
+            DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_USERS).child(targetKey).child(FIREBASE_CHILD_FRIENDS).child(keyOfFriendUnderTarget);
+            userReference.removeValue();
+        }
+
     }
 }

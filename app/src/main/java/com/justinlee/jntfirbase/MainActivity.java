@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAcceptFriendRequest.setOnClickListener(this);
         setButtonClicableState(buttonAcceptFriendRequest, false);
 
+        Button buttonRejectFriendRequest = findViewById(R.id.button_reject_friend_request);
+        buttonRejectFriendRequest.setOnClickListener(this);
+        setButtonClicableState(buttonRejectFriendRequest, false);
+
         Button buttonPostArticle = findViewById(R.id.button_post_article);
         buttonPostArticle.setOnClickListener(this);
 
@@ -141,8 +145,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.button_accept_friend_request:
                 if(mLoggedInUser != null) {
-                    String inputEmail = getInputEmail();
                     FriendsManager.acceptAllFriendRequests(mLoggedInUser);
+                }
+                break;
+
+            case R.id.button_reject_friend_request:
+                Log.d(TAG, "onClick: reject0");
+                if(mLoggedInUser != null) {
+                    FriendsManager.rejectAllFriendRequests(mLoggedInUser);
                 }
                 break;
 
@@ -211,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setListenerForFriendRequests() {
         final Button buttonAcceptFriendRequest = findViewById(R.id.button_accept_friend_request);
+        final Button buttonRejectFriendRequest = findViewById(R.id.button_reject_friend_request);
 
         DatabaseReference friendsReference = mDatabase.getReference(FIREBASE_CHILD_USERS).child(mLoggedInUser.getKey()).child(FirebaseConstants.FIREBASE_CHILD_FRIENDS);
         friendsReference.addChildEventListener(new ChildEventListener() {
@@ -224,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (friendState.equals(FirebaseConstants.FIREBASE_REQUEST_RECEIVED)) {
                         Button buttonAcceptFriendRequest = findViewById(R.id.button_accept_friend_request);
                         setButtonClicableState(buttonAcceptFriendRequest, true);
+
+                        Button buttonRejectFriendRequest = findViewById(R.id.button_reject_friend_request);
+                        setButtonClicableState(buttonRejectFriendRequest, true);
                     }
                 }
             }
@@ -234,15 +248,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String friendState = dataSnapshot.getValue().toString();
                     if (friendState.equals(FirebaseConstants.FIREBASE_REQUEST_RECEIVED)) {
                         receivedCount++;
-                        Button buttonAcceptFriendRequest = findViewById(R.id.button_accept_friend_request);
-                        setButtonClicableState(buttonAcceptFriendRequest, true);
+//                        Button buttonAcceptFriendRequest = findViewById(R.id.button_accept_friend_request);
+//                        setButtonClicableState(buttonAcceptFriendRequest, true);
                     }
 
                     if(receivedCount > 0) {
                         setButtonClicableState(buttonAcceptFriendRequest, true);
+                        setButtonClicableState(buttonRejectFriendRequest, true);
                         receivedCount = 0;
                     } else {
                         setButtonClicableState(buttonAcceptFriendRequest, false);
+                        setButtonClicableState(buttonRejectFriendRequest, false);
                         receivedCount = 0;
                     }
                 }
